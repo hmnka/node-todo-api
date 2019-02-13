@@ -15,12 +15,13 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "lodash": "^4.17.11",
     "mongodb": "^3.1.13",
-    "mongoose": "^5.4.10",
-    "dotenv": "^6.2.0"
+    "mongoose": "^5.4.10"
   },
-  "devDependencies": {    
+  "devDependencies": {
     "expect": "^24.1.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
