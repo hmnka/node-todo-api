@@ -45,6 +45,7 @@ UserSchema.methods.toJSON = function() {
     return _.pick(userObject, ['_id', 'email']);
 };
 
+//Instance Method, 'this' refers to an individual doc
 UserSchema.methods.generateAuthToken = function () {
     var user = this;
     var access = 'auth';
@@ -52,9 +53,30 @@ UserSchema.methods.generateAuthToken = function () {
 
     user.tokens.push({access: access, token: token});
 
-    //Returning Promise, with token as the success argument
+    //Returning Promise, with 'token' as the success argument
     return user.save().then(() => {
         return token;
+    })
+};
+
+//Model method, 'this' refers to a model
+UserSchema.statics.findByToken = function (token) {
+    var User = this;
+    var decoded;
+
+    try {
+        decoded = jwt.verify(token, 'abc123');
+    } catch (e) {
+        //Same as - return Promise.reject();
+        return new Promise((resolve, reject) => {
+            reject();
+        });
+    }
+
+    return User.findOne({
+        '_id': decoded._id,
+        'tokens.token': token,
+        'tokens.access': 'auth'
     })
 };
 
